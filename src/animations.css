@@ -1,0 +1,378 @@
+/* ============================================================
+   ANIMATIONS — Arodrome
+   Premium motion inspired by high-end defense-tech aesthetics.
+   All animations use only transform + opacity for GPU compositing.
+   ============================================================ */
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+/* ── Page fade-in ────────────────────────────────────────────── */
+
+.page-enter {
+  animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Hero entrance (fires on load with stagger) ──────────────── */
+
+.home__hero-title {
+  animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.home__hero-lead {
+  animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.52s both;
+}
+
+.home__hero-ctas {
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
+}
+
+/* ── Ken Burns on hero + panel backgrounds ───────────────────── */
+
+.home__hero-bg img {
+  animation: kenBurns 30s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* ── Platform drone float ────────────────────────────────────── */
+
+.home__platform-bg img {
+  animation: float 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Hero stagger (inner pages — same easing as home hero) ─── */
+
+.page-enter-hero > * {
+  opacity: 0;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-enter-hero > *:nth-child(1) {
+  animation-delay: 0.12s;
+}
+
+.page-enter-hero > *:nth-child(2) {
+  animation-delay: 0.28s;
+}
+
+.page-enter-hero > *:nth-child(3) {
+  animation-delay: 0.44s;
+}
+
+.page-enter-hero > *:nth-child(4) {
+  animation-delay: 0.58s;
+}
+
+/* ── Whole-block scroll reveal (non-home pages) ────────────── */
+
+.reveal-block.reveal-rise {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.85s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-block.reveal-rise.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Decorative rules inside generic reveal blocks */
+.reveal-block.reveal-rise hr:first-of-type {
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease;
+  transition-delay: 0.08s;
+}
+
+.reveal-block.reveal-rise.is-visible hr:first-of-type {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Optional: stagger children inside a rising block */
+.reveal-block.reveal-rise-stagger .reveal-fade-up {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-block.reveal-rise-stagger.is-visible .reveal-fade-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block.reveal-rise-stagger .reveal-fade-up:nth-of-type(1) {
+  transition-delay: 0.12s;
+}
+
+.reveal-block.reveal-rise-stagger .reveal-fade-up:nth-of-type(2) {
+  transition-delay: 0.24s;
+}
+
+.reveal-block.reveal-rise-stagger .reveal-fade-up:nth-of-type(3) {
+  transition-delay: 0.36s;
+}
+
+.reveal-block.reveal-rise-stagger .reveal-fade-up:nth-of-type(4) {
+  transition-delay: 0.48s;
+}
+
+/* ── Scroll Reveal ───────────────────────────────────────────── */
+/*
+  Add class "reveal-block" to a container. JS adds "is-visible"
+  via IntersectionObserver. CSS handles stagger via transition-delay.
+*/
+
+/* Rule: expands from left */
+.reveal-block .home__rule {
+  transform-origin: left center;
+  transform: scaleX(0);
+  opacity: 0;
+  transition:
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.5s ease;
+}
+
+/* Section headings */
+.reveal-block .home__section-title {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.2s;
+}
+
+/* Body text */
+.reveal-block .home__body {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.38s;
+}
+
+/* Text links */
+.reveal-block .home__text-link {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.55s;
+}
+
+/* Platform name */
+.reveal-block .home__platform-name {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.15s;
+}
+
+/* Platform label */
+.reveal-block .home__platform-label {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Revealed state ──────────────────────────────────────────── */
+
+.reveal-block.is-visible .home__rule {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.reveal-block.is-visible .home__section-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block.is-visible .home__body {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block.is-visible .home__text-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block.is-visible .home__platform-name {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-block.is-visible .home__platform-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Button hover improvements ───────────────────────────────── */
+
+.home__btn {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.2s ease;
+}
+
+/* Prevent the generic .home a:hover opacity from dimming buttons */
+.home__btn:hover {
+  opacity: 1 !important;
+  transform: translateX(3px);
+}
+
+.home__btn--primary:hover {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.home__btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Text link: arrow slides right on hover ──────────────────── */
+
+.home__text-link {
+  transition: opacity 0.25s ease;
+}
+
+.home__text-link:hover {
+  opacity: 1 !important;
+}
+
+.home__text-link img {
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home__text-link:hover img {
+  transform: translateX(8px);
+}
+
+/* ── Nav link underline slide ────────────────────────────────── */
+
+.site-nav__link {
+  position: relative;
+}
+
+.site-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-nav__link:hover::after,
+.site-nav__link--active::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Override the default opacity hover so underline is the only signal */
+.site-nav__link:hover {
+  opacity: 1;
+}
+
+/* ── Reduced motion: disable all non-essential motion ────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .home__hero-title,
+  .home__hero-lead,
+  .home__hero-ctas,
+  .page-enter,
+  .page-enter-hero > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .home__hero-bg img,
+  .home__platform-bg img {
+    animation: none;
+    transform: none;
+  }
+
+  .reveal-block.reveal-rise,
+  .reveal-block.reveal-rise hr:first-of-type,
+  .reveal-block.reveal-rise-stagger .reveal-fade-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal-block .home__rule,
+  .reveal-block .home__section-title,
+  .reveal-block .home__body,
+  .reveal-block .home__text-link,
+  .reveal-block .home__platform-name,
+  .reveal-block .home__platform-label {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .home__btn,
+  .home__text-link,
+  .home__text-link img,
+  .site-nav__link::after {
+    transition: none;
+  }
+
+  .home__btn:hover {
+    transform: none;
+  }
+}

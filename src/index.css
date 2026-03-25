@@ -1,0 +1,51 @@
+@import "./animations.css";
+@import "./page-hero-mission.css";
+
+:root {
+  /*
+   * Horizontal text inset (Figma 94px desktop):
+   * — full-width sections: padding-left/right = this value (text aligns to viewport edges).
+   * — split layouts: left column uses this from viewport; right column uses this from the center split.
+   */
+  --page-gutter-x: clamp(16px, 6.5vw, 94px);
+
+  /* Fixed header height (used for hero clearance) */
+  --site-nav-h: 102px;
+
+  /* Inner-page + home hero band min height */
+  --page-hero-min-height: min(100vh, 700px);
+
+  /* Title → body in copy blocks (home hero h1 + lead: no extra flex gap, margins 0) */
+  --copy-title-body-gap: 0;
+
+  /* Home OUR MISSION: space from rule line to title stack */
+  --page-hero-mission-rule-gap: 3.75rem;
+
+  /* Brand headline font (Figma: Index DL v1 AAA) */
+  --font-headline: "Index DL v1 AAA", "Barlow Condensed", system-ui, sans-serif;
+}
+
+/* Desktop: lock horizontal inset to Figma 94px (text / nav / footer align to one grid) */
+@media (min-width: 901px) {
+  :root {
+    --page-gutter-x: 94px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background: #1a1a1a;
+}
+
+#root {
+  min-height: 100vh;
+}
