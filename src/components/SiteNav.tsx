@@ -14,7 +14,7 @@ const links: NavLinkItem[] = [
   { label: "Investors", to: "/investors", match: "/investors" },
   { label: "About", to: "/about", match: "/about" },
   { label: "Mission", to: "/mission", match: "/mission" },
-  { label: "Contact", to: "/contact", match: "/contact" },
+  { label: "Contact", to: "/contact#contact-us", match: "/contact" },
 ];
 
 export function SiteNav() {

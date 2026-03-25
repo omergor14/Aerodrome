@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
  * Returns a ref and a boolean that flips to `true` once the element
  * scrolls into the viewport. Disconnects the observer after first trigger.
  */
-export function useScrollReveal(threshold = 0.1) {
-  const ref = useRef<HTMLDivElement>(null);
+export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
+  threshold = 0.1
+) {
+  const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

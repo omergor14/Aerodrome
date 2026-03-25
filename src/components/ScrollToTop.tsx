@@ -2,10 +2,12 @@ import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
- * Scrolls the window to the top on client-side route changes (e.g. footer links).
+ * Scrolls the window to the top when the route pathname (or hash target) changes.
+ * Query-string-only updates (e.g. ?tab= on /product) are omitted so in-page UI
+ * can control scroll without fighting this effect.
  */
 export function ScrollToTop() {
-  const { pathname, search, hash } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useLayoutEffect(() => {
     if (hash) {
@@ -17,7 +19,7 @@ export function ScrollToTop() {
       }
     }
     window.scrollTo(0, 0);
-  }, [pathname, search, hash]);
+  }, [pathname, hash]);
 
   return null;
 }

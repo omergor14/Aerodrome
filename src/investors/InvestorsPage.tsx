@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SiteNav } from "../components/SiteNav";
 import { SiteFooter } from "../components/SiteFooter";
 import { RevealBlock } from "../components/RevealBlock";
+import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { useStockQuote } from "../hooks/useStockQuote";
 import { formatUsd } from "../lib/yahooChartQuote";
 import { TrendArrowIcon } from "./TrendArrowIcon";
@@ -12,6 +13,41 @@ const a = "/assets/investors";
 const iconArrowDown = "/assets/icon-arrow-down.svg";
 const STOCK_SYMBOL = "ARDM.TA";
 const STOCK_YAHOO_URL = `https://finance.yahoo.com/quote/${encodeURIComponent(STOCK_SYMBOL)}`;
+
+/** Long duration + expo ease-out: fast start, very slow final approach to the quote. */
+const STOCK_PRICE_COUNT_MS = 2800;
+
+function AnimatedStockUsdPrice({ value }: { value: number }) {
+  const reducedMotion = usePrefersReducedMotion();
+  const [display, setDisplay] = useState(() => (reducedMotion ? value : 0));
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setDisplay(value);
+      return;
+    }
+    setDisplay(0);
+    let start: number | null = null;
+    let raf = 0;
+    const easeOutExpo = (t: number) =>
+      t >= 1 ? 1 : 1 - 2 ** (-10 * t);
+    const tick = (now: number) => {
+      if (start === null) start = now;
+      const t = Math.min(1, (now - start) / STOCK_PRICE_COUNT_MS);
+      setDisplay(value * easeOutExpo(t));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, reducedMotion]);
+
+  return (
+    <>
+      <span className="investors-sr-only">{formatUsd(value)}</span>
+      <span aria-hidden="true">{formatUsd(display)}</span>
+    </>
+  );
+}
 
 const articles = [
   {
@@ -116,7 +152,7 @@ export function InvestorsPage() {
               ) : stock.status === "ok" ? (
                 <>
                   <p className="investors-stock__price">
-                    {formatUsd(stock.quote.priceUsd)}
+                    <AnimatedStockUsdPrice value={stock.quote.priceUsd} />
                   </p>
                   <div className="investors-stock__change">
                     <TrendArrowIcon

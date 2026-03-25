@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function scrollPageTop() {
   window.scrollTo(0, 0);
@@ -13,6 +13,9 @@ const assets = {
 } as const;
 
 export function SiteFooter() {
+  const { pathname } = useLocation();
+  const onContactPage = pathname === "/contact";
+
   return (
     <footer id="footer" className="site-footer">
       <div className="site-footer__top">
@@ -25,12 +28,14 @@ export function SiteFooter() {
             height={41}
           />
         </Link>
-        <div className="site-footer__cta-wrap">
-          <Link to="/contact" className="site-footer__btn" onClick={scrollPageTop}>
-            <span>CONTACT US</span>
-            <img src={assets.iconArrowCta} alt="" aria-hidden="true" />
-          </Link>
-        </div>
+        {!onContactPage ? (
+          <div className="site-footer__cta-wrap">
+            <Link to="/contact#contact-us" className="site-footer__btn">
+              <span>CONTACT US</span>
+              <img src={assets.iconArrowCta} alt="" aria-hidden="true" />
+            </Link>
+          </div>
+        ) : null}
       </div>
 
       <div className="site-footer__columns">

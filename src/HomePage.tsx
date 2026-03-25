@@ -6,9 +6,10 @@ import "./components/site-layout.css";
 import "./home.css";
 
 const assets = {
-  heroDrone: "/assets/hero-home.jpg",
+  heroDrone: "/assets/home-hero-drone.png",
   missionDesert: "/assets/mission-desert.jpg",
   missionOverlay: "/assets/mission-overlay.jpg",
+  visionBg: "/assets/home-vision-bg.png",
   platformPhoenix: "/assets/platform-phoenix.jpg",
   sectionExplosion: "/assets/section-explosion.jpg",
   sectionMoon: "/assets/section-moon.jpg",
@@ -42,7 +43,7 @@ export function HomePage() {
                 </p>
               </div>
               <div className="home__hero-ctas">
-                <Link to="/contact" className="home__btn home__btn--primary">
+                <Link to="/contact#contact-us" className="home__btn home__btn--primary">
                   <span>CONTACT US</span>
                   <img src={assets.iconArrowCta} alt="" aria-hidden="true" />
                 </Link>
@@ -104,15 +105,10 @@ export function HomePage() {
           className="home__panel home__panel--vision"
           aria-labelledby="vision-title"
         >
-          <div className="home__panel-bg home__panel-bg--layered" aria-hidden="true">
+          <div className="home__panel-bg home__panel-bg--vision" aria-hidden="true">
             <img
-              className="home__panel-bg-img"
-              src={assets.missionDesert}
-              alt=""
-            />
-            <img
-              className="home__panel-bg-img home__panel-bg-img--front"
-              src={assets.missionOverlay}
+              className="home__panel-bg-img home__panel-bg-img--vision"
+              src={assets.visionBg}
               alt=""
             />
           </div>
@@ -241,10 +237,7 @@ export function HomePage() {
             <RevealBlock className="home__block" style={{ gap: "3.75rem" }}>
               <hr className="home__rule" />
               <div className="home__block home__copy-stack">
-                <h2
-                  id="cruise-title"
-                  className="home__section-title home__section-title--mono"
-                >
+                <h2 id="cruise-title" className="home__section-title">
                   TOP TIER CRUISE MISSILE TECHNOLOGIES WITHIN REACH
                 </h2>
                 <p className="home__body">

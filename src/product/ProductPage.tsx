@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SiteNav } from "../components/SiteNav";
 import { SiteFooter } from "../components/SiteFooter";
@@ -26,16 +26,41 @@ const hero = "/assets/product/ov-hero.jpg";
 const iconUpload = "/assets/product/icon-upload.svg";
 const specPdf = "/assets/product/phoenix-lt-spec.pdf";
 
+function scrollProductTabsIntoView(tabsEl: HTMLElement | null) {
+  if (!tabsEl) return;
+  const productRoot = tabsEl.closest(".product");
+  const navHRaw = productRoot
+    ? getComputedStyle(productRoot).getPropertyValue("--site-nav-h").trim()
+    : getComputedStyle(document.documentElement)
+        .getPropertyValue("--site-nav-h")
+        .trim();
+  const navH = parseFloat(navHRaw) || 120;
+  const top =
+    tabsEl.getBoundingClientRect().top + window.scrollY - navH;
+  window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
+}
+
 export function ProductPage() {
   const [params, setParams] = useSearchParams();
   const tab = normalizeTab(params.get("tab"));
+  const tabsBarRef = useRef<HTMLDivElement>(null);
 
+  /* Entering Product from nav / other routes: hero at top (not tab strip) */
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [tab]);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   const setTab = (id: TabId) => {
     setParams(id === "overview" ? {} : { tab: id });
+  };
+
+  const onTabBarClick = (id: TabId) => {
+    setTab(id);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() =>
+        scrollProductTabsIntoView(tabsBarRef.current)
+      );
+    });
   };
 
   return (
@@ -71,6 +96,7 @@ export function ProductPage() {
         </section>
 
         <div
+          ref={tabsBarRef}
           className="product-tabs"
           role="tablist"
           aria-label="Product sections"
@@ -86,7 +112,7 @@ export function ProductPage() {
                   ? "product-tabs__btn product-tabs__btn--active"
                   : "product-tabs__btn"
               }
-              onClick={() => setTab(id)}
+              onClick={() => onTabBarClick(id)}
             >
               {label}
             </button>

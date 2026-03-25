@@ -94,12 +94,13 @@
   font-weight: 700;
 }
 
-/* ——— Hero ——— (vertical center in band — matches contact-hero rhythm) */
+/* ——— Hero ——— ~80% viewport (responsive vh/dvh, not capped like inner-page heroes) */
 .home__hero {
   position: relative;
   box-sizing: border-box;
-  min-height: var(--page-hero-min-height);
-  padding: calc(var(--nav-h) + 10px) var(--page-pad) 10px;
+  min-height: 80vh;
+  min-height: 80dvh;
+  padding: calc(var(--nav-h) + 10px) var(--page-pad) clamp(10px, 3.2vh, 22px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -111,18 +112,43 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  background: #2d3d2f;
+  background: #2a3a2c;
+}
+
+/* Oversized frame + diagonal drift: reads as the UAV crossing the hero (nose ~top-left in art). */
+@keyframes home-hero-drone-drift {
+  from {
+    transform: translate3d(8%, 10%, 0) scale(1.16);
+  }
+  to {
+    transform: translate3d(-10%, -12%, 0) scale(1.16);
+  }
 }
 
 .home__hero-bg img {
   position: absolute;
-  width: 115%;
-  height: 120%;
-  left: -5%;
-  top: -5%;
+  width: 118%;
+  height: 122%;
+  left: -9%;
+  top: -11%;
   object-fit: cover;
-  object-position: center 40%;
+  object-position: 48% 42%;
   max-width: none;
+  will-change: transform;
+  /* linear: no ease-in “dead time” at the start of each leg */
+  animation: home-hero-drone-drift 36s linear infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__hero-bg img {
+    animation: none;
+    transform: translate3d(0, 0, 0) scale(1.1);
+    left: -5%;
+    top: -6%;
+    width: 115%;
+    height: 118%;
+    will-change: auto;
+  }
 }
 
 .home__hero-inner {
@@ -268,6 +294,45 @@
   opacity: 1;
 }
 
+/* VISION — ocean formation art; slow vertical pan (down → up, then reverse) */
+@keyframes home-vision-bg-rise {
+  from {
+    transform: translate3d(0, 9%, 0);
+  }
+  to {
+    transform: translate3d(0, -9%, 0);
+  }
+}
+
+.home__panel--vision .home__panel-bg--vision {
+  overflow: hidden;
+}
+
+.home__panel--vision .home__panel-bg-img--vision {
+  inset: auto;
+  left: 0;
+  width: 100%;
+  height: 118%;
+  max-width: none;
+  top: -9%;
+  object-fit: cover;
+  object-position: center 45%;
+  will-change: transform;
+  /* linear: immediate steady pan (no ease-in “dead time” at leg start) */
+  animation: home-vision-bg-rise 33.6s linear infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__panel--vision .home__panel-bg-img--vision {
+    animation: none;
+    transform: translate3d(0, 0, 0);
+    inset: 0;
+    height: 100%;
+    top: 0;
+    will-change: auto;
+  }
+}
+
 .home__panel-dim {
   position: absolute;
   inset: 0;
@@ -287,7 +352,7 @@
 
 @media (max-width: 640px) {
   .home__hero {
-    padding-bottom: 32px;
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -403,11 +468,6 @@
   color: var(--color-cream);
   margin: 0;
   text-transform: uppercase;
-}
-
-.home__section-title--mono {
-  font-family: var(--font-mono);
-  font-weight: 500;
 }
 
 .home__body {

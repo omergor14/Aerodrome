@@ -17,15 +17,6 @@
   }
 }
 
-@keyframes kenBurns {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -55,13 +46,7 @@
   animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
 }
 
-/* ── Ken Burns on hero + panel backgrounds ───────────────────── */
-
-.home__hero-bg img {
-  animation: kenBurns 30s ease-in-out infinite alternate;
-  transform-origin: center center;
-  will-change: transform;
-}
+/* Hero background motion lives in home.css (diagonal drift). */
 
 /* ── Platform drone float ────────────────────────────────────── */
 
