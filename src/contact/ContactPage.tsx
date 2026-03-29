@@ -7,6 +7,9 @@ import "./contact.css";
 const c = "/assets/contact";
 const iconCtaChevron = "/assets/icon-cta-chevron.svg";
 
+/** Shown on the page and should match the SES/Lambda recipient for contact submissions. */
+const OFFICE_EMAIL = "Office@aerodrome-sys.com";
+
 export function ContactPage() {
   return (
     <div className="contact" data-name="Contact" data-node-id="2045:13335">
@@ -49,7 +52,7 @@ export function ContactPage() {
                     <div className="contact-office__body">
                       <p>Hapsagot St 4, Petah Tikva, Israel</p>
                       <p>Phone: +972-72-2608093</p>
-                      <p>Email: office@aerodrome-sys.com</p>
+                      <p>Email: {OFFICE_EMAIL}</p>
                       <p>Hours: Sun–Thu 09:00–18:00</p>
                     </div>
                   </article>
@@ -61,7 +64,7 @@ export function ContactPage() {
                     <div className="contact-office__body">
                       <p>HaPa&apos;amon St 8, Petah Tikva, Israel</p>
                       <p>Phone: +972-72-2608093</p>
-                      <p>Email: office@aerodrome-sys.com</p>
+                      <p>Email: {OFFICE_EMAIL}</p>
                       <p>Hours: Sun–Thu 09:00–18:00</p>
                     </div>
                   </article>
